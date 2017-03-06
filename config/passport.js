@@ -31,9 +31,8 @@ passport.use('local-signup', new LocalStrategy({
                 newUser.save(function(err){
                     if(err){
                         throw err;
-                    } else {
-                        return done(null, newUser);;
                     } 
+                      return done(null, newUser);
                 });
             }
         });
@@ -54,13 +53,10 @@ passport.use('local-login', new LocalStrategy({
             if(!user){
                 return done(null, false, req.flash('loginMessage', 'no user find'));
             }
-            if(user.validPassword(password)){
-                    console.log(user.validPassword(password));
-                     return done(null, user); 
-            } else {
+            if(!user.validPassword(password)){
                 return done(null, false, req.flash('loginMessage', 'invalid password'));
-            }
-           
+            } 
+            return done(null, user); 
         });
     });
 }));
